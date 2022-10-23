@@ -28,9 +28,11 @@ class gui:
 
         print('\n[*] 1. Descargar video')
 
-        print('\n[*] 2. Convertir video a audio')
+        print('\n[*] 2. Descargar solo audio')
 
-        print('\n[*] 3. Salir')
+        print('\n[*] 3. Convertir video a audio')
+
+        print('\n[*] 4. Salir')
 
         print('\n--------------------------')
 
@@ -67,9 +69,13 @@ class gui:
 
             elif op == 2:
 
-                self.audioConverter()
+                self.audioDownloader()
 
             elif op == 3:
+
+                self.audioConverter()
+
+            elif op == 4:
 
                 self.abort()
 
@@ -82,13 +88,36 @@ class gui:
 
         f().cleanTerm()
 
-        url = input('\n[+] Ingrese la url: ')
+        url = input('\n[+] Ingrese la url del video de YouTube que desea descargar: ')
 
         time.sleep(1)
 
         print('\n[*] Descargando video...')
 
-        videoName = d().videoDownloader(url)
+        videoName = d(url).videoDownloader()
+
+        f().order_Files(videoName, 'files/mp4')
+
+        print('\n[+] Video descargado con exito!!')
+
+        time.sleep(3)
+
+
+    def audioDownloader(self):
+
+        f().cleanTerm()
+
+        url = input('\n[+] Ingrese la url del video de YouTube que desea descargar solo el audio: ')
+
+        time.sleep(1)
+
+        filename = input('\n[+] Ingrese el nombre del archivo de audio: ')
+
+        time.sleep(1)
+
+        print('\n[*] Descargando el audio del video...')
+
+        videoName = d(url).audioDownloader(f'{filename}.mp4')
 
         f().order_Files(videoName, 'files/mp4')
 
