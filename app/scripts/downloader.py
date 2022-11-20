@@ -16,6 +16,6 @@ class downloader:
 
         audio = self.yt.streams.get_audio_only()
 
-        filename = audio.download(filename = name)
+        filename = audio.download(filename=name)
 
         return filename
