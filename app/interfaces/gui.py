@@ -117,9 +117,9 @@ class gui:
 
         print('\n[*] Descargando el audio del video...')
 
-        videoName = d(url).audioDownloader(f'{filename}.mp3')
+        videoName = d(url).audioDownloader(f'{filename}.mp4')
 
-        f().order_Files(videoName, 'files/mp3')
+        f().order_Files(videoName, 'files/mp4')
 
         print('\n[+] Audio de video descargado con exito!!')
 
