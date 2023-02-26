@@ -83,7 +83,7 @@ def main(page: ft.Page):
     url_input = ft.TextField(label='URL:')
     selected_path = ft.Text()
     selected_path.value = 'Path'
-    download_button = ft.TextButton('Descargar', on_click=handle_submit)
+    download_button = ft.TextButton('Download', on_click=handle_submit)
 
     # Control picker
     pick_file_dialog = ft.FilePicker(on_result=pick_file_result)
