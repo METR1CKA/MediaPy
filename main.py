@@ -121,4 +121,8 @@ def main(page: ft.Page):
 
 
 # Main window or init window
-ft.app(target=main)
+def gui():
+    ft.app(target=main)
+
+if __name__ == '__main__':
+    gui()
