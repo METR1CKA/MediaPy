@@ -17,7 +17,7 @@ def downloader_converter(url, name, handle_error, progress, complete):
             .get_highest_resolution() \
             .download(filename=filename, output_path=output_path)
         conv = editor.VideoFileClip(video)
-        conv.audio.write_audiofile(f'{name}_OnlyAudio.mp3')
+        conv.audio.write_audiofile(f'{video}_OnlyAudio.mp3')
     except:
         handle_error()
 
