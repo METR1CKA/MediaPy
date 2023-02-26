@@ -57,10 +57,8 @@ def main(page: ft.Page):
         download_complete.value = 'Download in progress...'
         if download_bar.value >= 99:
             download_bar.value = 0
-        for i in range(0, 101):
-            download_bar.value = i * 0.01
-            time.sleep(0.1)
-            page.update()
+        db = ft.ProgressBar(width=250)
+        download_bar.value = db.value
         page.update()
 
     # Function to mark completed progress
