@@ -1,7 +1,7 @@
 # Imports
 from pytube import YouTube
 from pathlib import Path
-import flet as ft, moviepy.editor as editor, os, time
+import flet as ft, moviepy.editor as editor, os
 
 
 # Function for downloader and converter video to audio
@@ -18,8 +18,8 @@ def downloader_converter(url, name, handle_error, progress, complete):
             .download(filename=filename, output_path=output_path)
         conv = editor.VideoFileClip(video)
         conv.audio.write_audiofile(f'{video}_OnlyAudio.mp3')
-    except:
-        handle_error()
+    except Exception as e:
+        handle_error(e)
 
 
 # Function for main window
@@ -48,15 +48,13 @@ def main(page: ft.Page):
 
     # Function to handle errors
     def handle_error(*args):
-        download_complete.value = 'Something went wrong, try again, please...'
+        download_complete.value = f'Error: {args}'
         download_bar.value = 0
         page.update()
 
     # Function to mark progress
     def in_progress(*args):
         download_complete.value = 'Download in progress...'
-        if download_bar.value >= 99:
-            download_bar.value = 0
         db = ft.ProgressBar(width=250)
         download_bar.value = db.value
         page.update()
