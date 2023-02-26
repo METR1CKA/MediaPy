@@ -1,30 +1,22 @@
 # Imports
 from pytube import YouTube
 from pathlib import Path
-import flet as ft
-import moviepy.editor as editor
-import os
+import flet as ft, moviepy.editor as editor, os, time
 
 
 # Function for downloader and converter video to audio
 def downloader_converter(url, name, handle_error, progress, complete):
     try:
         yt = YouTube(url=url, on_progress_callback=progress, on_complete_callback=complete)
-
         filename = str(Path(name).name)
-
         if filename.lower() == 'path':
             filename = 'output.mp4'
-
         output_path = str(os.path.split(Path(name))[0])
-
         video = yt.streams \
             .filter(progressive=True, file_extension='mp4') \
             .get_highest_resolution() \
             .download(filename=filename, output_path=output_path)
-
         conv = editor.VideoFileClip(video)
-
         conv.audio.write_audiofile(f'{name}_OnlyAudio.mp3')
     except:
         handle_error()
@@ -63,8 +55,12 @@ def main(page: ft.Page):
     # Function to mark progress
     def in_progress(*args):
         download_complete.value = 'Download in progress...'
-        db = ft.ProgressBar(width=250)
-        download_bar.value = db.value
+        if download_bar.value >= 99:
+            download_bar.value = 0
+        for i in range(0, 101):
+            download_bar.value = i * 0.01
+            time.sleep(0.1)
+            page.update()
         page.update()
 
     # Function to mark completed progress
