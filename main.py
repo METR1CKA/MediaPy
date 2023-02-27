@@ -1,7 +1,7 @@
 # Imports
 from pytube import YouTube
 from pathlib import Path
-import flet as ft, moviepy.editor as editor, os
+import flet as ft, moviepy.editor as editor, os, time
 
 
 # Function for downloader video
@@ -52,12 +52,25 @@ def main(page: ft.Page):
             in_progress,
             on_complete,
         )
+        time.sleep(1)
+        page.update()
         if button_check.value:
+            time.sleep(1)
+            download_complete.value = "Converting downloaded video to audio..."
+            db = ft.ProgressBar(width=250)
+            download_bar.value = db.value
+            page.update()
             converter(
                 video,
                 pick_file_dialog.result.path,
                 handle_error,
             )
+            time.sleep(1)
+            download_complete.value = "Video converted..."
+            download_bar.value = 100
+            page.update()
+        time.sleep(1)
+        download_complete.value = "Completed process!!"
         page.update()
 
     # Function to pick file result
@@ -124,12 +137,7 @@ def main(page: ft.Page):
         ft.Column(
             [
                 ft.Row([url_input], alignment=ft.MainAxisAlignment.CENTER),
-                ft.Row(
-                    [
-                        pick_file_button,
-                        selected_path,
-                    ]
-                ),
+                ft.Row([pick_file_button, selected_path]),
                 ft.Row([button_check]),
                 ft.Row([download_button], alignment=ft.MainAxisAlignment.CENTER),
             ],
