@@ -39,7 +39,7 @@ def main(page: ft.Page):
             url_input.error_text = "Please enter URL..."
             page.update()
             return
-        if pick_file_dialog.result == None and selected_path.value.lower() == "path":
+        if selected_path.value == "None.mp4" or selected_path.value == "Path":
             selected_path.value = "Please enter path..."
             page.update()
             return
@@ -87,14 +87,14 @@ def main(page: ft.Page):
     # Window properties
     page.title = "YouTube Media Downloader By METR1CKA"
     page.vertical_alignment = "center"
-    page.window_height = 500
-    page.window_width = 600
-    page.window_max_height = 500
-    page.window_min_height = 500
-    page.window_max_width = 600
-    page.window_min_width = 600
+    page.window_height = 400
+    page.window_width = 700
+    page.window_max_height = 400
+    page.window_min_height = 400
+    page.window_max_width = 700
+    page.window_min_width = 700
 
-    # Controls (inputs, selectors, buttons)
+    # Controls (inputs, selectors, buttons, etc...)
     url_input = ft.TextField(label="URL:")
     selected_path = ft.Text()
     selected_path.value = "Path"
