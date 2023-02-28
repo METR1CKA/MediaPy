@@ -139,10 +139,10 @@ def main(page: ft.Page):
                 ft.Row([url_input], alignment=ft.MainAxisAlignment.CENTER),
                 ft.Row([pick_file_button, selected_path]),
                 ft.Row([button_check]),
-                ft.Row([download_button], alignment=ft.MainAxisAlignment.CENTER),
             ],
             spacing=25,
         ),
+        ft.Row([download_button], alignment=ft.MainAxisAlignment.CENTER),
         ft.Row([download_complete], alignment=ft.MainAxisAlignment.CENTER),
         ft.Row([download_bar], alignment=ft.MainAxisAlignment.CENTER),
     )
