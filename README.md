@@ -25,7 +25,7 @@ python main.py
 
 ## Archivo ejecutable para windows
 
-Antes de ejecutar debes remplazar algunos archivos para que no tengas error en las dependencias de python
+En caso de tener error al iniciar el programa y que este no se ejecute, puedes hacer lo siguiente
 
 1. Copiar el contenido dentro de [audio.txt](output/audio.txt) y pegarlo a la siguiente ruta
 
