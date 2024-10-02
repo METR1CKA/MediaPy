@@ -32,7 +32,7 @@ def downloader(url, filename, path):
     if os.path.exists(path_video):
         os.remove(path_video)
     ydl_opts = {
-        "format": "best",
+        "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",
         "logger": Logger(),
         "progress_hooks": [my_hook],
         "outtmpl": path_video,
