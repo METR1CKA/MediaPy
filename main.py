@@ -49,6 +49,7 @@ def converter(video, filename, path):
     if os.path.exists(path_audio):
         os.remove(path_audio)
     editor.VideoFileClip(video).audio.write_audiofile(path_audio)
+    return path_audio
 
 
 def parseArgs():
