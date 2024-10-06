@@ -56,26 +56,31 @@ def parseArgs():
     parser = argparse.ArgumentParser(description="YouTube MediaPy Downloader")
     parser.add_argument(
         "--url",
+        "-u",
         type=str,
         help="URL of the video to download",
     )
     parser.add_argument(
         "--name",
+        "-n",
         type=str,
         help="Name of the video to save",
     )
     parser.add_argument(
         "--convert-audio",
+        "-c",
         action="store_true",
         help="Convert video to audio",
     )
     parser.add_argument(
         "--version",
+        "-v",
         action="version",
         version="%(prog)s - v1.0.0",
     )
     parser.add_argument(
         "--only-audio",
+        "-oa",
         action="store_true",
         help="Download and convert to get only audio",
     )
