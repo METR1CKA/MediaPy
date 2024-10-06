@@ -20,9 +20,9 @@ class Logger:
         print(msg)
 
 
-def my_hook(d):
+def myHook(d):
     if d["status"] == "finished":
-        print("Download completed")
+        print("\n[ * ] - Download completed\n")
 
 
 def downloader(url, filename, path):
@@ -34,7 +34,7 @@ def downloader(url, filename, path):
     ydl_opts = {
         "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",
         "logger": Logger(),
-        "progress_hooks": [my_hook],
+        "progress_hooks": [myHook],
         "outtmpl": path_video,
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -53,7 +53,7 @@ def converter(video, filename, path):
 
 
 def parseArgs():
-    parser = argparse.ArgumentParser(description="YouTube Media Downloader")
+    parser = argparse.ArgumentParser(description="YouTube MediaPy Downloader")
     parser.add_argument(
         "--url",
         type=str,
@@ -93,12 +93,12 @@ if __name__ == "__main__":
 
     if not args.url:
         parser.print_help()
-        print("Parametro --url es requerido...")
+        print("\n[ ! ] - Parameter --url is required...")
         sys.exit(1)
 
     if not args.name:
         parser.print_help()
-        print("Parametro --name es requerido...")
+        print("\n[ ! ] - Parameter --name is required...")
         sys.exit(1)
 
     root = Tk()
@@ -108,21 +108,21 @@ if __name__ == "__main__":
 
     if selected_path:
         if not os.path.exists(selected_path):
-            print("Ruta seleccionada no existe...")
+            print("\n[ ! ] - Route selected not found")
             sys.exit(1)
     else:
-        print("Ruta no seleccionada...")
+        print("\n[ ! ] - Route not selected...")
         sys.exit(1)
 
     try:
-        print("Downloading...")
-        video = downloader(args.url, args.name, selected_path)
+        print("\n[ * ] - Downloading...")
+        video = downloader(url=args.url, filename=args.name, path=selected_path)
         if args.convert_audio or args.only_audio:
-            converter(video, args.name, selected_path)
+            converter(video=video, filename=args.name, path=selected_path)
             if args.only_audio:
                 os.remove(video)
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"\n[ ! ] - Error: {e}")
         sys.exit(1)
 
     sys.exit(0)
