@@ -1,11 +1,11 @@
-# MediaPy
+# MediaPy CLI
 
-- Python >= 3.11
+- Python >= 3.12
 - pip
 
-## Ejecutar programa en modo dev
+## Ejecutar programa
 
-1. Crear VENV
+1. Crear VENV (opcional)
 
 ```console
 python3 -m venv venv
@@ -17,10 +17,14 @@ python3 -m venv venv
 python -m pip install -r requirements.txt
 ```
 
-3. Ejecutar
+3. Ejecutar (obtener ayuda)
 
 ```console
 python main.py
+```
+
+```console
+python main.py -h | --help
 ```
 
 3. Ya puedes utilizar el archivo [main.exe](output/main.exe)
