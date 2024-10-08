@@ -20,75 +20,75 @@ class Logger:
         print(msg)
 
 
-def myHook(d):
-    if d["status"] == "finished":
-        print("\n[ * ] - Download completed\n")
+class Media:
+    def myHook(self, d):
+        if d["status"] == "finished":
+            print("\n[ * ] - Download completed\n")
 
+    def downloader(self, url, filename, path):
+        if not filename.endswith(".mp4"):
+            filename = f"{filename}.mp4"
+        path_video = os.path.join(path, filename)
+        if os.path.exists(path_video):
+            os.remove(path_video)
+        ydl_opts = {
+            "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",
+            "logger": Logger(),
+            "progress_hooks": [self.myHook],
+            "outtmpl": path_video,
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        return path_video
 
-def downloader(url, filename, path):
-    if not filename.endswith(".mp4"):
-        filename = f"{filename}.mp4"
-    path_video = os.path.join(path, filename)
-    if os.path.exists(path_video):
-        os.remove(path_video)
-    ydl_opts = {
-        "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",
-        "logger": Logger(),
-        "progress_hooks": [myHook],
-        "outtmpl": path_video,
-    }
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
-    return path_video
+    def converter(self, video, filename, path):
+        if not filename.endswith(".mp3"):
+            filename = f"{filename}.mp3"
+        path_audio = os.path.join(path, filename)
+        if os.path.exists(path_audio):
+            os.remove(path_audio)
+        editor.VideoFileClip(video).audio.write_audiofile(path_audio)
+        return path_audio
 
-
-def converter(video, filename, path):
-    if not filename.endswith(".mp3"):
-        filename = f"{filename}.mp3"
-    path_audio = os.path.join(path, filename)
-    if os.path.exists(path_audio):
-        os.remove(path_audio)
-    editor.VideoFileClip(video).audio.write_audiofile(path_audio)
-    return path_audio
-
-
-def parseArgs():
-    parser = argparse.ArgumentParser(description="YouTube MediaPy Downloader")
-    parser.add_argument(
-        "--url",
-        "-u",
-        type=str,
-        help="URL of the video to download",
-    )
-    parser.add_argument(
-        "--name",
-        "-n",
-        type=str,
-        help="Name of the video to save",
-    )
-    parser.add_argument(
-        "--convert-audio",
-        "-c",
-        action="store_true",
-        help="Convert video to audio",
-    )
-    parser.add_argument(
-        "--version",
-        "-v",
-        action="version",
-        version="%(prog)s - v1.0.0",
-    )
-    parser.add_argument(
-        "--only-audio",
-        "-oa",
-        action="store_true",
-        help="Download and convert to get only audio",
-    )
-    return parser
+    def parseArgs(self):
+        parser = argparse.ArgumentParser(description="YouTube MediaPy Downloader")
+        parser.add_argument(
+            "--url",
+            "-u",
+            type=str,
+            help="URL of the video to download",
+        )
+        parser.add_argument(
+            "--name",
+            "-n",
+            type=str,
+            help="Name of the video to save",
+        )
+        parser.add_argument(
+            "--convert-audio",
+            "-c",
+            action="store_true",
+            help="Convert video to audio",
+        )
+        parser.add_argument(
+            "--version",
+            "-v",
+            action="version",
+            version="%(prog)s - v1.0.0",
+        )
+        parser.add_argument(
+            "--only-audio",
+            "-oa",
+            action="store_true",
+            help="Download and convert to get only audio",
+        )
+        return parser
 
 
 if __name__ == "__main__":
-    parser = parseArgs()
+    media = Media()
+
+    parser = media.parseArgs()
 
     args = parser.parse_args()
 
@@ -121,9 +121,9 @@ if __name__ == "__main__":
 
     try:
         print("\n[ * ] - Downloading...")
-        video = downloader(url=args.url, filename=args.name, path=selected_path)
+        video = media.downloader(url=args.url, filename=args.name, path=selected_path)
         if args.convert_audio or args.only_audio:
-            converter(video=video, filename=args.name, path=selected_path)
+            media.converter(video=video, filename=args.name, path=selected_path)
             if args.only_audio:
                 os.remove(video)
     except Exception as e:
