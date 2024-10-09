@@ -21,7 +21,7 @@ class Logger:
 
 
 class Media:
-    def myHook(self, d):
+    def downloaderHook(self, d):
         if d["status"] == "finished":
             print("\n[ * ] - Download completed\n")
 
@@ -34,7 +34,7 @@ class Media:
         ydl_opts = {
             "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",
             "logger": Logger(),
-            "progress_hooks": [self.myHook],
+            "progress_hooks": [self.downloaderHook],
             "outtmpl": path_video,
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -111,12 +111,12 @@ if __name__ == "__main__":
 
     selected_path = filedialog.askdirectory()
 
-    if selected_path:
-        if not os.path.exists(selected_path):
-            print("\n[ ! ] - Route selected not found")
-            sys.exit(1)
-    else:
+    if not selected_path:
         print("\n[ ! ] - Route not selected...")
+        sys.exit(1)
+
+    if not os.path.exists(selected_path):
+        print("\n[ ! ] - Route selected not found")
         sys.exit(1)
 
     try:
