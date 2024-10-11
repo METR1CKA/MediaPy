@@ -21,8 +21,9 @@ class Logger:
 
 
 class Media:
-    def downloaderHook(self, d):
-        if d["status"] == "finished":
+    def downloaderHook(self, data):
+        status = data["status"]
+        if status == "finished":
             print("\n[ * ] - Download completed\n")
 
     def downloader(self, url, filename, path):
@@ -85,7 +86,7 @@ class Media:
         return parser
 
 
-if __name__ == "__main__":
+def main():
     media = Media()
 
     parser = media.parseArgs()
@@ -131,3 +132,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()
