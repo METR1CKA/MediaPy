@@ -8,3 +8,9 @@ __pycache__
 dist/
 build/
 *.spec
+output/
+.commandcode/
+.logs/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
