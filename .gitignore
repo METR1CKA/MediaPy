@@ -7,10 +7,13 @@ __pycache__
 .DS_Store
 dist/
 build/
-*.spec
 output/
 .commandcode/
 .logs/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+
+# Empaquetado
+selftest.log
+ffmpeg-bin/
