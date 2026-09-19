@@ -1,5 +1,7 @@
 import glob
+import os
 import shutil
+import sys
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -9,12 +11,35 @@ import yt_dlp
 from mediapy.errors import DownloadError, MissingFFmpeg
 
 
+def _bundled_dir() -> Path | None:
+    base = getattr(sys, "_MEIPASS", None)
+    return Path(base) if base else None
+
+
+def _resolve_tool(name: str) -> str | None:
+    bundled = _bundled_dir()
+    if bundled is not None:
+        candidate = bundled / (name + (".exe" if os.name == "nt" else ""))
+        if candidate.is_file():
+            return str(candidate)
+    return shutil.which(name)
+
+
+def resolve_ffmpeg() -> str | None:
+    return _resolve_tool("ffmpeg")
+
+
+def resolve_ffprobe() -> str | None:
+    return _resolve_tool("ffprobe")
+
+
 def ensure_ffmpeg() -> str:
-    ffmpeg = shutil.which("ffmpeg")
+    ffmpeg = resolve_ffmpeg()
     if ffmpeg is None:
         raise MissingFFmpeg(
-            "ffmpeg was not found in PATH. Install it "
-            "(brew install ffmpeg / apt install ffmpeg) and try again."
+            "ffmpeg was not found. Frozen builds bundle it; for source "
+            "installs add it to PATH (brew install ffmpeg / apt install "
+            "ffmpeg) and try again."
         )
     return ffmpeg
 
@@ -41,9 +66,9 @@ class Downloader:
             ydl_opts["progress_hooks"] = [progress_hook]
         if postprocessor_hook is not None:
             ydl_opts["postprocessor_hooks"] = [postprocessor_hook]
-        ffmpeg = shutil.which("ffmpeg")
+        ffmpeg = resolve_ffmpeg()
         if ffmpeg is not None:
-            ydl_opts["ffmpeg_location"] = ffmpeg
+            ydl_opts["ffmpeg_location"] = str(Path(ffmpeg).parent)
         if audio_only:
             ydl_opts["format"] = "bestaudio/best"
             ydl_opts["postprocessors"] = [
